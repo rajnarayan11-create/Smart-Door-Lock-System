@@ -1,67 +1,104 @@
 # Smart Door Lock System - Code Alpha Task 2 🚪🔒
 
 **Author:** Raj Narayan Gaur  
-**Domain:** Internet of Things (IoT)  
+**Domain:** Internet of Things (IoT) & Embedded Systems  
 **Company:** Code Alpha  
 
 ## 📝 Project Overview
-This repository contains the code and documentation for my Task 2 project: a Smart Door Lock System. (Yahan 2-3 line mein batao ki lock kaise kaam karta hai, jaise RFID, keypad, ya fingerprint sensor ka use karke).
+This repository contains the code and documentation for Task 2: a Password-Based Smart Door Lock System built using **Arduino Uno**. This system automates a door-locking mechanism using a 4x4 Matrix Keypad for password entry and a Servo motor as the physical lock actuator, enhancing security through embedded programming.
 
-## 🛠️ Components Used
-*  Arduino UNO (Jo bhi use kiya ho, wahan likho)
-* Servo Motor / Solenoid Lock
-* Jumper Wires & Breadboard
-* (Aur koi component ho toh add karo)
+## 📸 Project Circuit & Setup Images
+*(Niche diye gaye link ko apni photo ke link se replace karein)*
 
-## 📸 Project Images
-*(Apni upload ki hui photo par click karke uska URL copy karo aur yahan paste karo is format mein: `![Project Photo](image_url)`)*
+![Smart Door Lock Setup](YAHAN_PHOTO_KA_LINK_PASTE_KAREIN)
 
 ## 🎥 Working Video
-<!-- Failed to upload "electronic-safe.ino - Wokwi ESP32, STM32, Arduino Simulator and 9 more pages - Personal - Microsoft​ Edge 2026-06-06 13-28-12.mp4" -->
-## 💻 How It Works
-(Yahan steps mein batao ki circuit kaise connect kiya aur lock kaise open/close hota hai).
-Step 4: Finalize aur Share
-README file set karne ke baad page ke bottom par jao aur "Commit changes" par click kardo.
+**[👉 Click Here to Watch the Working Video of Smart Door Lock System](YAHAN_VIDEO_KA_LINK_PASTE_KAREIN)**
 
-Ab tumhari GitHub repository puri tarah se ready hai!
+## 🛠️ Components Used
+* **Microcontroller:** Arduino Uno
+* **Actuator:** SG90 Servo Motor
+* **Input Module:** 4x4 Matrix Keypad
+* **Connecting Medium:** Jumper Wires & Breadboard
+* **Power Source:** 9V Battery / USB Cable
 
-Tum is repository ka URL copy karke apni LinkedIn post mein add kar sakte ho, jisse recruiters aur connections directly tumhara code, photos, aur working video dekh saken.
+## 💻 Arduino Uno Program (Keypad + Servo)
+*Note: Make sure to install the `Keypad.h` library in your Arduino IDE before uploading this code.*
 
+```cpp
 /*
-  Project: Smart Door Lock System
+  Project: Password-Based Smart Door Lock System
   Author: Raj Narayan Gaur
   Internship: Code Alpha (Task 2)
   Device: Arduino Uno
+  Components: 4x4 Matrix Keypad, SG90 Servo Motor
 */
 
+#include <Keypad.h>
 #include <Servo.h>
 
 Servo doorLock;
-const int servoPin = 9; // Servo ka signal pin Arduino ke Pin 9 par hai
+const int servoPin = 9; // Servo motor signal pin connected to Pin 9
+
+// Setup for 4x4 Matrix Keypad
+const byte ROWS = 4; 
+const byte COLS = 4; 
+
+char keys[ROWS][COLS] = {
+  {'1','2','3','A'},
+  {'4','5','6','B'},
+  {'7','8','9','C'},
+  {'*','0','#','D'}
+};
+
+// Connect Keypad ROW1, ROW2, ROW3 and ROW4 to these Arduino pins
+byte rowPins[ROWS] = {8, 7, 6, 5}; 
+// Connect Keypad COL1, COL2, COL3 and COL4 to these Arduino pins
+byte colPins[COLS] = {4, 3, 2, A0}; 
+
+Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
+
+String defaultPassword = "1234"; // Set your door password here
+String enteredPassword = "";
 
 void setup() {
   Serial.begin(9600);
   doorLock.attach(servoPin);
   
-  doorLock.write(0); // Shuruat mein door locked rahega (0 degree)
-  Serial.println("System Ready. Send 'O' to Open, 'C' to Close.");
+  doorLock.write(0); // Initially lock the door (0 degrees)
+  Serial.println("System Ready.");
+  Serial.println("Enter Password to Unlock (Press '#' to submit, '*' to clear):");
 }
 
 void loop() {
-  if (Serial.available() > 0) {
-    char command = Serial.read();
+  char key = keypad.getKey();
 
-    if (command == 'O' || command == 'o') {
-      Serial.println("Unlocking Door...");
-      doorLock.write(90); // 90 degree par door open
-      delay(5000);        // 5 seconds tak open rahega
+  if (key) {
+    if (key == '#') { 
+      // '#' is used as the ENTER/SUBMIT button
+      if (enteredPassword == defaultPassword) {
+        Serial.println("\n[SUCCESS] Access Granted! Door Unlocking...");
+        doorLock.write(90); // Rotate servo to 90 degrees to unlock
+        delay(5000);        // Keep door open for 5 seconds
+        
+        Serial.println("Auto Locking Door...");
+        doorLock.write(0);  // Rotate back to 0 degrees to lock
+      } else {
+        Serial.println("\n[ERROR] Access Denied! Wrong Password.");
+      }
       
-      Serial.println("Auto Locking Door...");
-      doorLock.write(0);  // Wapas lock ho jayega
-    } 
-    else if (command == 'C' || command == 'c') {
-      Serial.println("Locking Door...");
-      doorLock.write(0);  // Door close karne ke liye
+      enteredPassword = ""; // Reset password string for next attempt
+      Serial.println("\nEnter Password to Unlock:");
+      
+    } else if (key == '*') { 
+      // '*' is used as the CLEAR/BACKSPACE button
+      enteredPassword = "";
+      Serial.println("\nInput Cleared. Enter Password:");
+      
+    } else {
+      // Add pressed key to the password string
+      enteredPassword += key;
+      Serial.print("*"); // Print asterisk for password security on Serial Monitor
     }
   }
 }
