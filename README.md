@@ -12,9 +12,8 @@ This repository contains the code and documentation for Task 2: a Password-Based
 
 <img width="1361" height="916" alt="Image" src="https://github.com/user-attachments/assets/59b93250-f30b-4717-9a45-6aa250652620" />
 ## 🎥 Working Video
-**[👉 Click Here to Watch the Working Video of Smart Door Lock System](YAHAN_VIDEO_KA_LINK_PASTE_KAREIN)**
+https://github.com/user-attachments/assets/7d75319e-6295-4e37-bf9b-e4e05408d635
 
-## 🛠️ Components Used
 * **Microcontroller:** Arduino Uno
 * **Actuator:** SG90 Servo Motor
 * **Input Module:** 4x4 Matrix Keypad
