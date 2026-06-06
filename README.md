@@ -17,8 +17,7 @@ This repository contains the code and documentation for my Task 2 project: a Sma
 *(Apni upload ki hui photo par click karke uska URL copy karo aur yahan paste karo is format mein: `![Project Photo](image_url)`)*
 
 ## 🎥 Working Video
-**[Click here to watch the working video of the Smart Door Lock System](Yahan_Apne_YouTube_Ya_Drive_Video_Ka_Link_Daalo)**
-
+<!-- Failed to upload "electronic-safe.ino - Wokwi ESP32, STM32, Arduino Simulator and 9 more pages - Personal - Microsoft​ Edge 2026-06-06 13-28-12.mp4" -->
 ## 💻 How It Works
 (Yahan steps mein batao ki circuit kaise connect kiya aur lock kaise open/close hota hai).
 Step 4: Finalize aur Share
