@@ -10,8 +10,7 @@ This repository contains the code and documentation for Task 2: a Password-Based
 ## 📸 Project Circuit & Setup Images
 *(Niche diye gaye link ko apni photo ke link se replace karein)*
 
-![Smart Door Lock Setup](YAHAN_PHOTO_KA_LINK_PASTE_KAREIN)
-
+<img width="1361" height="916" alt="Image" src="https://github.com/user-attachments/assets/59b93250-f30b-4717-9a45-6aa250652620" />
 ## 🎥 Working Video
 **[👉 Click Here to Watch the Working Video of Smart Door Lock System](YAHAN_VIDEO_KA_LINK_PASTE_KAREIN)**
 
